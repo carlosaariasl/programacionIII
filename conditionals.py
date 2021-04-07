@@ -32,5 +32,5 @@ y = 20
 #     print("x is greater than two or less or equal to twenty")
 
 
-if (not(x!=y)):
-    print("x")
+# if (not(x!=y)):
+#     print("x")
