@@ -1,0 +1,58 @@
+import tkinter as tk
+import serial
+
+# Inicializar la comunicación serial con Arduino
+arduino = serial.Serial('puerto_serial_de_arduino', 9600)  # Reemplaza 'puerto_serial_de_arduino' con el puerto correcto
+
+# Función para procesar los datos recibidos de Arduino
+def procesar_datos(datos):
+    if datos.startswith('Grupo Led'):
+        # Actualizar el estado de los LEDs en el dashboard
+        # Puedes implementar esta parte según tus preferencias y diseño de la interfaz
+        pass
+    elif datos.startswith('Boton'):
+        # Actualizar el estado de los botones en el dashboard
+        # Puedes implementar esta parte según tus preferencias y diseño de la interfaz
+        pass
+
+# Función para enviar comandos a Arduino
+def enviar_comando(comando):
+    arduino.write(comando.encode())
+
+# Configuración de la ventana
+ventana = tk.Tk()
+ventana.title("Dashboard")
+
+# Crear elementos visuales en el dashboard (por ejemplo, círculos para representar los LEDs y rectángulos para los botones)
+
+# Funciones para manejar los botones
+def boton_presionado(comando):
+    enviar_comando(comando)
+
+# Ejemplo de creación de botones
+boton_A = tk.Button(ventana, text="Botón A", command=lambda: boton_presionado('A'))
+boton_A.pack()
+
+boton_B = tk.Button(ventana, text="Botón B", command=lambda: boton_presionado('B'))
+boton_B.pack()
+
+boton_C = tk.Button(ventana, text="Botón C", command=lambda: boton_presionado('C'))
+boton_C.pack()
+
+boton_D = tk.Button(ventana, text="Botón D", command=lambda: boton_presionado('D'))
+boton_D.pack()
+
+# Bucle principal para recibir y procesar datos de Arduino
+def leer_datos_desde_arduino():
+    while True:
+        datos = arduino.readline().decode().strip()
+        if datos:
+            procesar_datos(datos)
+
+# Crear un hilo para leer datos de Arduino en segundo plano
+import threading
+thread_arduino = threading.Thread(target=leer_datos_desde_arduino)
+thread_arduino.start()
+
+# Iniciar el bucle de la interfaz de usuario
+ventana.mainloop()
